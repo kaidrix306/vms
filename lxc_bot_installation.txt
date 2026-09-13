@@ -1,0 +1,36 @@
+# Install The Python:
+
+apt update && apt install python3-pip
+
+# Install The Python Packages
+
+pip install discord --break-system-packages
+pip install dotenv --break-system-packages
+pip install PyNaCl --break-system-packages
+pip install davey --break-system-packages
+
+# Make The Bot 24/7:
+
+nano /etc/systemd/system/bot.service
+
+[Unit]
+Description=VPS Discord Bot
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/root
+ExecStart=/usr/bin/python3 /root/bot.py
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
+
+# Restart The Bot:
+
+systemctl daemon-reload
+systemctl start bot
+systemctl restart bot
+systemctl status bot
